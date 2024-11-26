@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'manageDns',
     'tokenManager',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +99,7 @@ DATABASES = {
         'NAME': 'microserv',        # Database name
         'USER': 'root',           # MySQL user
         'PASSWORD': '123',   # MySQL password
-        'HOST': 'localhost',        # Or IP address of your database server
+        'HOST': 'db',        # Or IP address of your database server
         'PORT': '3306',             # Default MySQL port
     }
 }
