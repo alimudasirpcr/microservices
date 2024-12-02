@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import sys
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -100,7 +101,14 @@ DATABASES = {
         'USER': 'root',           # MySQL user
         'PASSWORD': '123',   # MySQL password
         'HOST': 'db',        # Or IP address of your database server
-        'PORT': '3306',             # Default MySQL port
+        'PORT': '3306', 
+                    
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('MYSQL_DATABASE', 'microserv'),
+        'USER': os.getenv('MYSQL_USER', 'root'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', '123'),
+        'HOST': os.getenv('MYSQL_HOST', 'db'),
+        'PORT': os.getenv('MYSQL_PORT', '3306'),            # Default MySQL port
     }
 }
 # Use a different host for testing if running tests outside of Docker
