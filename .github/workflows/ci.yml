@@ -18,10 +18,8 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_DATABASE: microserv
-          MYSQL_USER: root
-          MYSQL_PASSWORD: 123
-          MYSQL_ROOT_PASSWORD: 123
+          MYSQL_ROOT_PASSWORD: 123  # Use this to set the root password
+          MYSQL_DATABASE: microserv  # This creates the specified database
         options: >-
           --health-cmd="mysqladmin ping -h localhost"
           --health-interval=10s
