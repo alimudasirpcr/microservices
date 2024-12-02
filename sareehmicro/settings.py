@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -103,7 +103,9 @@ DATABASES = {
         'PORT': '3306',             # Default MySQL port
     }
 }
-
+# Use a different host for testing if running tests outside of Docker
+# if 'pytest' in sys.modules:
+#     DATABASES['default']['HOST'] = '127.0.0.1'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
