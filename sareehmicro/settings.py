@@ -101,7 +101,7 @@ DATABASES = {
         'NAME': os.environ.setdefault('MYSQL_DATABASE', 'microserv'),
         'USER': os.environ.setdefault('MYSQL_USER', 'root'),
         'PASSWORD': os.environ.setdefault('MYSQL_PASSWORD', '123'),
-        'HOST': os.environ.setdefault('MYSQL_HOST', '127.0.0.1'),
+        'HOST': os.environ.setdefault('MYSQL_HOST', 'db'),
         'PORT': os.environ.setdefault('MYSQL_PORT', '3306'),            # Default MySQL port
     }
 }
