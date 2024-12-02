@@ -106,8 +106,8 @@ DATABASES = {
     }
 }
 # Use a different host for testing if running tests outside of Docker
-# if 'pytest' in sys.modules:
-#     DATABASES['default']['HOST'] = '127.0.0.1'
+if 'pytest' in sys.modules:
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
