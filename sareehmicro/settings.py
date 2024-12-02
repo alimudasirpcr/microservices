@@ -96,12 +96,6 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'microserv',        # Database name
-        'USER': 'root',           # MySQL user
-        'PASSWORD': '123',   # MySQL password
-        'HOST': 'db',        # Or IP address of your database server
-        'PORT': '3306', 
                     
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('MYSQL_DATABASE', 'microserv'),
