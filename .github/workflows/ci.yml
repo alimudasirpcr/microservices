@@ -12,63 +12,43 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ROOT_PASSWORD: 123  # Use this to set the root password
-          MYSQL_DATABASE: microserv  # This creates the specified database
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-    env:
-      DJANGO_SETTINGS_MODULE: sareehmicro.settings
-      MYSQL_HOST: 127.0.0.1
-      MYSQL_DATABASE: microserv
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123
-      MYSQL_PORT: 3306
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.9
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Ensure Python version is >=3.10
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      # Step 3: Clear pip cache (optional but recommended)
+      - name: Clear pip cache
+        run: |
+          rm -rf ~/.cache/pip
 
-    - name: Wait for MySQL
-      run: |
-        for i in {1..10}; do
-          nc -z 127.0.0.1 3306 && break
-          echo "Waiting for MySQL..."
-          sleep 5
-        done
-        if ! nc -z 127.0.0.1 3306; then
-          echo "MySQL did not become ready in time."
-          exit 1
-        fi
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Apply migrations
-      run: python manage.py migrate
+      # Step 5: Run migrations
+      - name: Run migrations
+        env:
+          DJANGO_SETTINGS_MODULE: sareehmicro.settings  # Ensure your settings module is defined
+        run: |
+          python manage.py migrate
 
-    - name: Run tests
-      run: pytest --ds=sareehmicro.settings --cov=manageDns
+      # Step 6: Run tests
+      - name: Run Django tests
+        env:
+          DJANGO_SETTINGS_MODULE: sareehmicro.settings
+        run: |
+          python manage.py test
 
-    - name: Upload coverage report
-      if: success()
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: htmlcov/
+      # Step 7: Optional - Check for Django versions available (Debugging)
+      - name: Check available Django versions
+        run: |
+          python -m pip index versions Django
