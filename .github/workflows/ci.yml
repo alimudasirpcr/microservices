@@ -49,6 +49,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+
+      - name: Wait for MySQL to be ready
+              run: |
+                for i in {1..30}; do
+                  if mysqladmin ping -h127.0.0.1 -uroot -proot --silent; then
+                    echo "MySQL is ready"
+                    break
+                  fi
+                  echo "Waiting for MySQL to start..."
+                  sleep 2
+                done
+
+      - name: Set environment variables
+        run: |
+          echo "MYSQL_HOST=127.0.0.1" >> $GITHUB_ENV
+          echo "MYSQL_PORT=3306" >> $GITHUB_ENV
+          echo "MYSQL_DATABASE=test_db" >> $GITHUB_ENV
+          echo "MYSQL_USER=test_user" >> $GITHUB_ENV
+          echo "MYSQL_PASSWORD=test_password" >> $GITHUB_ENV
+
+          
       # Step 5: Run migrations
       - name: Run migrations
         env:
